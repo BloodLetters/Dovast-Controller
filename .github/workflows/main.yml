@@ -1,0 +1,83 @@
+name: Release Dovast
+
+on:
+  workflow_dispatch:  # Trigger manual
+
+jobs:
+  build:
+    runs-on: windows-latest  # Karena menggunakan PowerShell, kita perlu runner Windows
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'  # Sesuaikan dengan versi Python yang kamu gunakan
+
+    - name: Install Requirements.txt
+      run: pip install -r requirements.txt
+
+    - name: Run PowerShell script
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Path .\Dovast-Compiled
+        pyinstaller --onefile --name Dovast --icon=..\assets\icon.ico --distpath Dovast-Compiled/Dist --workpath Dovast-Compiled/Build --specpath Dovast-Compiled --distpath .\Dovast-Compiled index.py
+        New-Item -ItemType Directory -Path .\Dovast-Compiled\keys
+        Copy-Item -Path .\config.json -Destination .\Dovast-Compiled\
+        Copy-Item -Path .\keys\example.json -Destination .\Dovast-Compiled\keys\
+        Remove-Item -Path .\Dovast-Compiled\Build -Recurse
+        Remove-Item -Path .\Dovast-Compiled\Dovast.spec
+        exit
+
+    - name: Get Latest Tag and Calculate Next Version
+      id: get_version
+      run: |
+        # Ambil tag terakhir
+        latest_tag=$(git describe --tags --abbrev=0)
+        echo "Latest tag: $latest_tag"
+
+        # Ambil nomor versi mayor dan minor dari tag terakhir
+        major_minor=$(echo $latest_tag | sed -E 's/^v([0-9]+)\.([0-9]+)$/\1 \2/')
+        major=$(echo $major_minor | awk '{print $1}')
+        minor=$(echo $major_minor | awk '{print $2}')
+
+        # Tentukan versi selanjutnya
+        if [ "$minor" -lt 9 ]; then
+          minor=$((minor + 1))
+        else
+          minor=0
+          major=$((major + 1))
+        fi
+
+        new_version="v$major.$minor"
+        echo "Next version: $new_version"
+
+        echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+    - name: Zip Dovast-Compiled
+      shell: pwsh
+      run: |
+        Compress-Archive -Path .\Dovast-Compiled\* -DestinationPath .\Dovast-Compiled.zip
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      with:
+        tag_name: ${{ env.NEW_VERSION }}
+        release_name: Release ${{ env.NEW_VERSION }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: .\Dovast-Compiled.zip
+        asset_name: Dovast-Compiled.zip
+        asset_content_type: application/zip
