@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <img src="assets/banner.jpg" alt="Banner" style="width:800px;">
+=======
+<strong>Still on progress</strong>
+>>>>>>> 6baa31bc455eae7edba683d9c69fd0467681b93c
 
 # Dovast-Controller
 Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
