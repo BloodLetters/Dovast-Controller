@@ -1,5 +1,11 @@
 <img src="assets/banner.jpg" alt="Banner" style="width:800px;">
 
+[![GitHub release](https://img.shields.io/github/v/release/BloodLetters/Dovast-Controller.svg)](https://github.com/BloodLetters/Dovast-Controller/releases)
+[![GitHub last commit](https://img.shields.io/github/last-commit/BloodLetters/Dovast-Controller.svg)](https://github.com/BloodLetters/Dovast-Controller/commits/main)
+[![Release Dovast](https://github.com/BloodLetters/Dovast-Controller/actions/workflows/main.yml/badge.svg)](https://github.com/BloodLetters/Dovast-Controller/actions/workflows/main.yml)
+![Custom Badge](https://img.shields.io/badge/Status-Active-brightgreen)
+
+
 # Dovast-Controller
 Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 
