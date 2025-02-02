@@ -64,14 +64,19 @@ jobs:
 
         $new_version = "v$major.$minor"
         Write-Host "Next version: $new_version"
+
+        echo "LATEST_TAG=$$latest_tag" >> $GITHUB_ENV
         echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
-
-
 
     - name: Zip Dovast-Compiled
       shell: pwsh
       run: |
         Compress-Archive -Path .\Dovast-Compiled\* -DestinationPath .\Dovast-Compiled.zip
+
+    - name: Debug Version
+      run: |
+        echo "Current version is ${{ env.LATEST_TAG }}"
+        echo "New version is ${{ env.NEW_VERSION }}"
 
     - name: Create Release
       id: create_release
