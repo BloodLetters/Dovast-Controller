@@ -1,11 +1,11 @@
 name: Release Dovast
 
 on:
-  workflow_dispatch:  # Trigger manual
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest  # Karena menggunakan PowerShell, kita perlu runner Windows
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -14,7 +14,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.12'  # Sesuaikan dengan versi Python yang kamu gunakan
+        python-version: '3.12'
 
     - name: Install Requirements.txt
       run: pip install -r requirements.txt
@@ -34,25 +34,21 @@ jobs:
     - name: Get Latest Tag and Calculate Next Version
       id: get_version
       run: |
-        # Ambil tag terakhir
-        latest_tag=$(git describe --tags --abbrev=0)
-        echo "Latest tag: $latest_tag"
+        $latest_tag = git describe --tags --abbrev=0
+        Write-Host "Latest tag: $latest_tag"
 
-        # Ambil nomor versi mayor dan minor dari tag terakhir
-        major_minor=$(echo $latest_tag | sed -E 's/^v([0-9]+)\.([0-9]+)$/\1 \2/')
-        major=$(echo $major_minor | awk '{print $1}')
-        minor=$(echo $major_minor | awk '{print $2}')
+        $version_parts = $latest_tag -replace '^v(\d+)\.(\d+)$', '$1 $2'
+        $major, $minor = $version_parts -split ' '
 
-        # Tentukan versi selanjutnya
-        if [ "$minor" -lt 9 ]; then
-          minor=$((minor + 1))
-        else
-          minor=0
-          major=$((major + 1))
-        fi
+        if ($minor -lt 9) {
+          $minor = $minor + 1
+        } else {
+          $minor = 0
+          $major = $major + 1
+        }
 
-        new_version="v$major.$minor"
-        echo "Next version: $new_version"
+        $new_version = "v$major.$minor"
+        Write-Host "Next version: $new_version"
 
         echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
