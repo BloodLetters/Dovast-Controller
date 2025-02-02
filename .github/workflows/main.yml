@@ -10,6 +10,9 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -34,25 +37,24 @@ jobs:
     - name: Get Latest Tag and Calculate Next Version
       id: get_version
       run: |
-        try {
-            $latest_tag = git describe --tags --abbrev=0
-        } catch {
+        $latest_tag = git describe --tags --abbrev=0 2>$null
+
+        if (-not $latest_tag) {
             Write-Host "No tags found. Setting initial version to v1.0"
             $latest_tag = "v1.0"
+        } else {
+            Write-Host "Latest tag found: $latest_tag"
         }
-
-        Write-Host "Latest tag: $latest_tag"
 
         if ($latest_tag -match '^v(\d+)\.(\d+)$') {
             $major = [int]$matches[1]
             $minor = [int]$matches[2]
         } else {
-            # Jika format tidak sesuai, fallback ke v1.0
+            Write-Host "Tag format invalid. Resetting to v1.0"
             $major = 1
             $minor = 0
         }
 
-        # Tingkatkan versi
         if ($minor -lt 9) {
             $minor += 1
         } else {
@@ -62,8 +64,8 @@ jobs:
 
         $new_version = "v$major.$minor"
         Write-Host "Next version: $new_version"
-        
         echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
 
 
     - name: Zip Dovast-Compiled
