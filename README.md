@@ -29,10 +29,17 @@ Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 - python index.py
 ```
 
+# Supported donation site
+> For now only websites from Indonesia can use Dovast
+```
+- [Saweria](https://saweria.co/)
+- [Trakteer](https://trakteer.id/) | **In Progress**
+```
+
 # Related Link
 - [Dovast Documentation](https://github.com/BloodLetters/Dovast-Controller/wiki)
-- [Saweria](https://saweria.co/)
-- [Trakteer](https://trakteer.id/)
+- [Configuration](https://github.com/BloodLetters/Dovast-Controller/wiki/Configuration)
+- [FAQ](https://github.com/BloodLetters/Dovast-Controller/wiki/FAQ)
 
 # Disclaimer
 This application is **free** and **open source**. It is not for sale and is provided as-is,
