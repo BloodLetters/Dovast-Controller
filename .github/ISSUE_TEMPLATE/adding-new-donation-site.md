@@ -4,7 +4,6 @@ about: Adding a new site
 title: ''
 labels: New Site
 assignees: BloodLetters
-
 ---
 
 ## Required
