@@ -6,6 +6,8 @@ labels: New Site
 assignees: BloodLetters
 
 ---
+Website Name:
+Website Link:
 
-Nama Website
-Website Link
+Is website have an api?: (Yes/No)
+Api site link: 
