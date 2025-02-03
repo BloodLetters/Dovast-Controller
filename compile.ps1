@@ -4,7 +4,9 @@ New-Item -ItemType Directory -Path .\Dovast-Compiled\keys
 
 # Copy item
 Copy-Item -Path .\config.json -Destination .\Dovast-Compiled\
-Copy-Item -Path .\keys\example.json -Destination .\Dovast-Compiled\keys\
+Copy-Item -Path .\keys\mouse-example.json -Destination .\Dovast-Compiled\keys\
+Copy-Item -Path .\keys\keyboard-example.json -Destination .\Dovast-Compiled\keys\
+Copy-Item -Path .\keys\slide-example.json -Destination .\Dovast-Compiled\keys\
 
 # Clearing Unused package
 Remove-Item -Path .\Dovast-Compiled\Build -Recurse
