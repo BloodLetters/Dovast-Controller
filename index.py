@@ -5,7 +5,7 @@ import re
 
 from pynput.keyboard import Controller
 from pynput.mouse import Controller as MouseController, Button
-from server import SaweriaWebSocketListener
+from connection.saweria import SaweriaWebSocketListener
 from utils import getConfig
 
 keyboard = Controller()
