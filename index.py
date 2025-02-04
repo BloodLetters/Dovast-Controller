@@ -46,7 +46,7 @@ async def slide_mouse(direction, amount, step=5, delay=0.01):
     elif direction == "down":
         dx, dy = 0, step
 
-    logger.log(f"[DONATION] Sliding mouse {direction} by {amount} pixels")
+    logger.info(f"Sliding mouse {direction} by {amount} pixels")
 
     for _ in range(steps):
         mouse.move(dx, dy)
@@ -62,7 +62,7 @@ async def trigger_key(type, key):
 
     if type.lower() == "mouse":
         if key in ["left_click", "middle_click", "right_click"]:
-            logger.log(f"[DONATION] Clicking mouse: {key}")
+            logger.info(f"Clicking mouse: {key}")
             if key == "left_click":
                 mouse.click(Button.left)
             elif key == "middle_click":
