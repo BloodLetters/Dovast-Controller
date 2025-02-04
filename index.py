@@ -5,9 +5,14 @@ import re
 
 from pynput.keyboard import Controller
 from pynput.mouse import Controller as MouseController, Button
-from connection.saweria import SaweriaWebSocketListener
+from connection.saweria import SaweriaClient
+from connection.trakteer import TrakteerClient
 from utils import getConfig
+from loguru import logger
 
+logger.add("logs/app.log", 
+           format="{time} | {level} | {module}:{function}:{line} - {message}", 
+           rotation="1 MB")
 keyboard = Controller()
 mouse = MouseController()
 config = getConfig()
@@ -23,7 +28,8 @@ def load_keys():
                     keys.append(data)
         return keys
     except FileNotFoundError:
-        print("[ERROR] Folder keys Not Found!")
+        # print("Folder keys Not Found!")
+        logger.error("Folder 'Keys' Not found!")
         exit()
 
 async def slide_mouse(direction, amount, step=5, delay=0.01):
@@ -40,7 +46,7 @@ async def slide_mouse(direction, amount, step=5, delay=0.01):
     elif direction == "down":
         dx, dy = 0, step
 
-    print(f"[DONATION] Sliding mouse {direction} by {amount} pixels")
+    logger.log(f"[DONATION] Sliding mouse {direction} by {amount} pixels")
 
     for _ in range(steps):
         mouse.move(dx, dy)
@@ -56,7 +62,7 @@ async def trigger_key(type, key):
 
     if type.lower() == "mouse":
         if key in ["left_click", "middle_click", "right_click"]:
-            print(f"[DONATION] Clicking mouse: {key}")
+            logger.log(f"[DONATION] Clicking mouse: {key}")
             if key == "left_click":
                 mouse.click(Button.left)
             elif key == "middle_click":
@@ -64,8 +70,7 @@ async def trigger_key(type, key):
             elif key == "right_click":
                 mouse.click(Button.right)
             else:
-                print("[DONATION] mouse event triggered but did not doin any action")
-                print("[DONATION] are you setup it correctly?")
+                logger.warning("[DONATION] mouse event triggered but did not doin any action. are you setup it correctly?")
         else:
             match = re.match(r"slide_(right|left|up|down)\((\d+)\)", key)
             if match:
@@ -73,36 +78,48 @@ async def trigger_key(type, key):
                 amount = int(amount)
                 await slide_mouse(direction, amount)
             else:
-                print("[DONATION] mouse event triggered but did not doin any action")
-                print("[DONATION] are you setup it correctly?")
+                logger.warning("[DONATION] mouse event triggered but did not doin any action. are you setup it correctly?")
 
     elif type.lower() == "key":
-        print(f"[DONATION] Pressing key: {key}")
+        logger.info(f"[DONATION] Pressing key: {key}")
         keyboard.press(key)
         keyboard.release(key)
 
     else:
-        print("[DONATION] Donation found but did not trigger any action")
-        print("[DONATION] are you setup it correctly?")
+        logger.warning("[DONATION] Donation found but did not trigger any action. are you setup it correctly?")
 
 def on_donation(donation_data):
     amount = donation_data.get("amount")
-    print(f"[LOG] Donation received! Amount: {amount}")
+    logger.success(f"Donation received! Amount: {amount}")
+    isPriceFound = False
 
     for key_binding in keys:
         if key_binding["price"] == amount:
-            print(f"[LOG] Keybinds {key_binding} found with amount {amount}")
+            isPriceFound = True
+            logger.success(f"Keybinds {key_binding} found with amount {amount}")
             asyncio.create_task(trigger_key(key_binding['type'], key_binding["key"]))
+    
+    if isPriceFound == False:
+       logger.warning(f"Donation found but no price matched. have you set it up correctly?") 
 
-keys = load_keys()
-print("[LOG] Loaded keybinds:", keys)
-if(config['service'] == "saweria"):
-    saweria_key = config['saweria']['stream_key']
-    if(saweria_key == ""): 
-        print("[ERROR] stream_key is none")
+if __name__ == "__main__":
+    keys = load_keys()
+    logger.info(f"Loaded keybinds: {keys}")
+    if(config['service'].lower() == "saweria"):
+        saweria_key = config['saweria']['stream_key']
+        if(saweria_key == ""): 
+            logger.error("stream_key is none")
+            exit()
+        listener = SaweriaClient(saweria_key, on_donation, config['debug'])
+        asyncio.run(listener.listen())
+    elif(config['service'].lower() == "trakteer"):
+        trakteer_data = config['trakteer']
+        if(trakteer_data['channel'] == "" or trakteer_data['test_channel'] == ""):
+            logger.error("channel or test_channel is none")
+            exit()
+        else:
+            client = TrakteerClient(trakteer_data['channel'], trakteer_data['test_channel'], callback=on_donation)
+            asyncio.run(client.connect())
+    else:
+        logger.error("Service not found!")
         exit()
-    listener = SaweriaWebSocketListener(saweria_key, on_donation, config['debug'])
-    asyncio.run(listener.listen())
-else:
-    print("[ERROR] Service not found!")
-    exit()

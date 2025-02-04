@@ -3,7 +3,9 @@ import asyncio
 import websockets
 import json
 
-class SaweriaWebSocketListener:
+from loguru import logger
+
+class SaweriaClient:
     def __init__(self, stream_key, on_donation_callback, debug=False):
         self.stream_key = stream_key
         self.debug = debug
@@ -14,22 +16,22 @@ class SaweriaWebSocketListener:
         while True:
             try:
                 async with websockets.connect(self.uri) as websocket:
-                    print("[LOG] Connected!. waiting donation")
+                    logger.info("Connected to saweria websocket. waiting donation")
                     while True:
                         try:
                             message = await websocket.recv()
                             data = json.loads(message)
                             
                             if self.debug:
-                                print("[DEBUG] Data receive:", data)
+                                logger.debug("Data receive:", data)
 
                             if data.get("type") == "donation":
                                 donation_data = data["data"][0]
                                 self.on_donation_callback(donation_data)
                         except websockets.exceptions.ConnectionClosed:
-                            print("[LOG] Connection closed. reconecting......")
+                            logger.info("Connection closed. reconecting......")
                             break
 
             except Exception as e:
-                print(f"[ERROR] Error: {e}. Reconnecting in 5 second")
+                logger.warning(f"{e}. Reconnecting in 5 second")
                 await asyncio.sleep(5)
