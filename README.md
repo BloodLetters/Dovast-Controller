@@ -10,7 +10,7 @@
 Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 
 # Feature
-- Connect trough websocket(Saweria)
+- Connect trough websocket
 - Control Mouse(Scroll, Slide, Middle click)
 - Keyboard
 - Multiple keys configuration
