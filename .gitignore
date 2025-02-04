@@ -2,4 +2,4 @@ dovast/
 test.py
 test1.py
 __pycache__
-config.json
+logs/
