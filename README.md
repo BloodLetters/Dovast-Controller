@@ -6,17 +6,17 @@
 ![Custom Badge](https://img.shields.io/badge/Status-Active-brightgreen)
 
 
-# Dovast-Controller
+# 🎁 Dovast-Controller
 Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 
-# Feature
+# 💡 Feature
 - Connect trough websocket
 - Control Mouse(Scroll, Slide, Middle click)
 - Keyboard
 - Multiple keys configuration
 - 100% Easy to setup
 
-## Instalation
+## 🛠️ Instalation
 
 ### using compiled version
 - Download ``Dovast.zip`` in released tab <br>
@@ -29,7 +29,7 @@ Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 - python index.py
 ```
 
-# Supported donation site
+# 🌐 Supported donation site
 > For now only websites from Indonesia can use Dovast
 - [Saweria](https://saweria.co/) - [Getting Saweria Stream_key](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-saweria)
 - [Trakteer](https://trakteer.id/) - [Getting Trakteer Channel](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-trakteer)
@@ -37,12 +37,12 @@ Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 - [TipeeeStream](https://www.tipeeestream.com/) | **In Progress**
 - Know a website like the one above? open issues to adding new sites
 
-# Related Link
+# 🔗 Related Link
 - [Dovast Documentation](https://github.com/BloodLetters/Dovast-Controller/wiki)
 - [Configuration](https://github.com/BloodLetters/Dovast-Controller/wiki/Configuration)
 - [FAQ](https://github.com/BloodLetters/Dovast-Controller/wiki/FAQ)
 
-# Disclaimer
+# ⚠️ Disclaimer
 This application is **free** and **open source**. It is not for sale and is provided as-is,
 with no warranties or guarantees of any kind. You are free to use, modify, and distribute the application, but please note that the developers are not responsible for any issues, damages, or losses that may arise from using this software.
 
