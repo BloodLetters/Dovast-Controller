@@ -8,7 +8,7 @@ from loguru import logger
 
 class TrakteerClient:
     def __init__(self, channel_name, test_channel_name, callback=None):
-        self.ws_url = f"wss://socket.trakteer.id/app/2ae25d102cc6cd41100a?protocol=7&client=js&version=5.1.1&flash=false"
+        self.ws_url = "wss://socket.trakteer.id/app/2ae25d102cc6cd41100a?protocol=7&client=js&version=5.1.1&flash=false"
         self.channel_name = channel_name
         self.test_channel_name = test_channel_name
         self.socket_id = None

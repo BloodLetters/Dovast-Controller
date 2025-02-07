@@ -100,7 +100,7 @@ def on_donation(donation_data):
             asyncio.create_task(trigger_key(key_binding['type'], key_binding["key"]))
     
     if isPriceFound == False:
-       logger.warning(f"Donation found but no price matched. have you set it up correctly?") 
+       logger.warning("Donation found but no price matched. have you set it up correctly?") 
 
 if __name__ == "__main__":
     keys = load_keys()
