@@ -5,8 +5,10 @@ import re
 
 from pynput.keyboard import Controller
 from pynput.mouse import Controller as MouseController, Button
+from pynput.keyboard import Key
 from connection.saweria import SaweriaClient
 from connection.trakteer import TrakteerClient
+
 from utils import getConfig
 from loguru import logger
 
@@ -81,9 +83,45 @@ async def trigger_key(type, key):
                 logger.warning("[DONATION] mouse event triggered but did not doin any action. are you setup it correctly?")
 
     elif type.lower() == "key":
-        logger.info(f"[DONATION] Pressing key: {key}")
-        keyboard.press(key)
-        keyboard.release(key)
+        special_keys = {
+            "enter": Key.enter,
+            "space": Key.space,
+            "tab": Key.tab,
+            "esc": Key.esc,
+            "backspace": Key.backspace,
+            "delete": Key.delete,
+            "shift": Key.shift,
+            "ctrl": Key.ctrl,
+            "alt": Key.alt,
+            "cmd": Key.cmd,  # for macOS
+            "caps_lock": Key.caps_lock,
+            "up": Key.up,
+            "down": Key.down,
+            "left": Key.left,
+            "right": Key.right,
+            "page_up": Key.page_up,
+            "page_down": Key.page_down,
+            "home": Key.home,
+            "end": Key.end,
+            "insert": Key.insert,
+            "f1": Key.f1,
+            "f2": Key.f2,
+            "f3": Key.f3,
+            "f4": Key.f4,
+            "f5": Key.f5,
+            "f6": Key.f6,
+            "f7": Key.f7,
+            "f8": Key.f8,
+            "f9": Key.f9,
+            "f10": Key.f10,
+            "f11": Key.f11,
+            "f12": Key.f12
+        }
+
+        press = special_keys.get(key, key)
+        logger.info(f"[DONATION] Pressing key: {press}")
+        keyboard.press(press)
+        keyboard.release(press)
 
     else:
         logger.warning("[DONATION] Donation found but did not trigger any action. are you setup it correctly?")
