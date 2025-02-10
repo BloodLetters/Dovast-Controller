@@ -59,6 +59,7 @@ async def slide_mouse(direction, amount, step=5, delay=0.01):
                    dy // abs(dy) * remainder if dy else 0)
 
 async def trigger_key(type, key):
+    typing = key
     key = key.lower()
     type = type.lower()
 
@@ -81,6 +82,10 @@ async def trigger_key(type, key):
                 await slide_mouse(direction, amount)
             else:
                 logger.warning("[DONATION] mouse event triggered but did not doin any action. are you setup it correctly?")
+
+    elif type.lower() == "typing":
+        logger.info(f"[DONATION] typing: {typing}")
+        keyboard.type(typing)
 
     elif type.lower() == "key":
         special_keys = {
