@@ -32,6 +32,7 @@ jobs:
         Copy-Item -Path .\keys\mouse-example.json -Destination .\Dovast-Compiled\keys\
         Copy-Item -Path .\keys\keyboard-example.json -Destination .\Dovast-Compiled\keys\
         Copy-Item -Path .\keys\slide-example.json -Destination .\Dovast-Compiled\keys\
+        Copy-Item -Path .\keys\typing-example.json -Destination .\Dovast-Compiled\keys\
         Remove-Item -Path .\Dovast-Compiled\Build -Recurse
         Remove-Item -Path .\Dovast-Compiled\Dovast.spec
         exit
