@@ -30,7 +30,7 @@ Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 ```
 
 # 🌐 Supported donation site
-> For now only websites from Indonesia can use Dovast
+> List of websites that can be used on dovast 
 - [Saweria](https://saweria.co/) - [Getting Saweria Stream_key](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-saweria)
 - [Trakteer](https://trakteer.id/) - [Getting Trakteer Channel](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-trakteer)
 - [Streamlabs](https://streamlabs.com) | **In Progress**
