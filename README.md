@@ -33,7 +33,7 @@ Control Mouse/Keyboard From Donation in saweria or trakteer, easy to setup
 > List of websites that can be used on dovast 
 - [Saweria](https://saweria.co/) - [Getting Saweria Stream_key](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-saweria)
 - [Trakteer](https://trakteer.id/) - [Getting Trakteer Channel](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-trakteer)
-- [Streamlabs](https://streamlabs.com) | **In Progress**
+- [Streamlabs](https://streamlabs.com) - [Getting Streamlabs SocketAPI](https://github.com/BloodLetters/Dovast-Controller/wiki/Service#-streamlabs)
 - [TipeeeStream](https://www.tipeeestream.com/) | **In Progress**
 - Know a website like the one above? open issues to adding new sites
 
