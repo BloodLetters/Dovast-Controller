@@ -6,6 +6,8 @@ import re
 from pynput.keyboard import Controller
 from pynput.mouse import Controller as MouseController, Button
 from pynput.keyboard import Key
+
+from connection.streamlabs import StreamlabsClient
 from connection.saweria import SaweriaClient
 from connection.trakteer import TrakteerClient
 
@@ -153,6 +155,7 @@ if __name__ == "__main__":
         if(saweria_key == ""): 
             logger.error("stream_key is none")
             exit()
+            
         listener = SaweriaClient(saweria_key, on_donation, config['debug'])
         asyncio.run(listener.listen())
     elif(config['service'].lower() == "trakteer"):
@@ -160,9 +163,17 @@ if __name__ == "__main__":
         if(trakteer_data['channel'] == "" or trakteer_data['test_channel'] == ""):
             logger.error("channel or test_channel is none")
             exit()
-        else:
-            client = TrakteerClient(trakteer_data['channel'], trakteer_data['test_channel'], callback=on_donation)
-            asyncio.run(client.connect())
+    
+        listener = TrakteerClient(trakteer_data['channel'], trakteer_data['test_channel'], callback=on_donation)
+        asyncio.run(listener.connect())
+    elif(config['service'].lower() == "streamlabs"):
+        streamlabs_data = config['streamlabs']
+        if(streamlabs_data['socket_token'] == ""):
+            logger.error("Socket token not found!")
+            exit()
+        
+        listener = StreamlabsClient(streamlabs_data['socket_token'], callback=on_donation)
+        asyncio.run(listener.connect())
     else:
         logger.error("Service not found!")
         exit()

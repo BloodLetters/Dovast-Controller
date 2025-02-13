@@ -1,5 +1,5 @@
 {
-    "service": "trakteer",
+    "service": "streamlabs",
     "debug": false,
 
     "saweria": {
@@ -9,5 +9,9 @@
     "trakteer": {
         "channel": "",
         "test_channel": ""
+    },
+
+    "streamlabs": {
+        "socket_token": ""
     }
 }
