@@ -1,4 +1,0 @@
-{
-    "saweria": "wss://events.saweria.co/stream",
-    "trakteer": "wss://socket.trakteer.id/app/2ae25d102cc6cd41100a?protocol=7&client=js&version=5.1.1&flash=false"
-}
